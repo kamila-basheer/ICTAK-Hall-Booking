@@ -1,0 +1,34 @@
+<!-- <img src="assets/images/book4.jpg" alt="">   -->
+<div class="container-fluid">
+  <br><br><br><br><br>
+
+
+    <div class="associates">
+      <h2>{{associatesLength}} associates found</h2>
+      <br><br>
+      <table class="styled-table">
+        <thead>
+          <tr>
+              <th>Associate Id</th>
+              <th>Username</th>
+              <th>Email</th>
+             
+              <th></th>
+              <th></th>
+              
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor='let i of associates' >
+              <td>{{i._id}}</td>
+              <td>{{i.username}}</td>
+              <td>{{i.email}}</td>
+             
+              <td><button class="btn btn-secondary" style="cursor:pointer" (click)="updateBook(i)" >Edit</button></td>
+              <td><button class="btn btn-danger" style="cursor:pointer" (click)="deleteAssociate(i)">Delete</button></td>
+          </tr>
+      </tbody>
+  
+      </table>
+    </div>
+  </div>
