@@ -1,3 +1,5 @@
+
+<br><br><br><br>
 <div class="card">
     <form (ngSubmit)="EditAssociate()">
         <div class="card-header">
@@ -10,11 +12,11 @@
                     <tbody>
                         <tr>
                             <td>Username</td>
-                            <td><input type="text" name="a_username" [(ngModel)]="Associate.username"></td>
+                            <td><input type="text" name="a_username" [(ngModel)]="Associate.username" readonly></td>
                         </tr>
                         <tr>
                             <td>Email</td>
-                            <td><input type="text" name="a_email" [(ngModel)]="Associate.email"></td>
+                            <td><input type="text" name="a_email" [(ngModel)]="Associate.email" readonly></td>
                         </tr>
                         <tr>
                             <td>Password</td>

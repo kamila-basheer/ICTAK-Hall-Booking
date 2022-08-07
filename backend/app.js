@@ -3,7 +3,7 @@ const express = require("express");
 
 
 const jwt = require('jsonwebtoken');
-
+const bcrypt = require('bcrypt');
 
 const cors = require("cors")
 
@@ -81,28 +81,56 @@ App.post('/register', function(req,res){
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
     let associateData = req.body;
-    console.log(associateData);
-    let associate = new associates(associateData);
-        associate.save((error, registeredUser)=>{
-        if(error){
-            res.status(401).json({message:"Email already exists"});
-        console.log(error)
-    } else {
-        let payload={username:registeredUser.username,
-                     email:registeredUser.email};
-        let token = jwt.sign(payload,'secretKey');
-        res.status(200).send({token});
-    }
-    })
+    console.log(associateData.username);
+     
+        bcrypt.hash(associateData.password,10,function(err,hash){
+            if(err){
+                res.status(400).json({
+                    msg:"Something went wrong",results:err
+                });
+            }else{
+                var associate = new associates({
+                    username:associateData.username,
+                    email:associateData.email,
+                    password:hash
+                });
+                associate.save((error, registeredUser)=>{
+                    if(error){
+                        res.status(401).json({message:"Email already exists"});
+                    console.log(error)
+                } else {
+                    // let payload={username:registeredUser.username,
+                    //              email:registeredUser.email};
+                    // let token = jwt.sign(payload,'secretKey');
+                    // res.status(200).send({token});
+                    res.status(200).send();
+                }
+                })
+            }
+        })
+            
+        // let associate = new associates(associateData);
+    //     associate.save((error, registeredUser)=>{
+    //     if(error){
+    //         res.status(401).json({message:"Email already exists"});
+    //     console.log(error)
+    // } else {
+    //     // let payload={username:registeredUser.username,
+    //     //              email:registeredUser.email};
+    //     // let token = jwt.sign(payload,'secretKey');
+    //     // res.status(200).send({token});
+    //     res.status(200).send();
+    // }
+    // })
 })
 
 App.post('/login', function(req,res){
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
     let associateData = req.body;
-    console.log(associateData);
+    console.log(associateData.email);
     associates.findOne({email:associateData.email})
-    .exec(function (err, item) {
+    .exec( function (err, item) {
         
 
         if (err) {
@@ -117,7 +145,10 @@ App.post('/login', function(req,res){
             } else {
                 // const validPassword = item.comparePassword(item.password);
                 // console.log(validPassword)
-            if (item.password !== associateData.password) 
+            // if (item.password !== associateData.password)
+            let validation =  bcrypt.compareSync(associateData.password,item.password);
+            console.log(validation);
+            if(validation==false) 
     
             {
                 console.log("Incorrect password");
@@ -193,33 +224,65 @@ App.put("/edit-associate" ,verifyAdminToken, function(req,res){
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
     console.log(req.body);
-    var id=req.body._id;
-    var username=req.body.username;
-    var email=req.body.email;
-    var password=req.body.password;
+    // var id=req.body._id;
+    // var username=req.body.username;
+    // var email=req.body.email;
+    // var password=req.body.password;
     
-    associates.findByIdAndUpdate(id,
-                           {$set:{
-                             "password":password
-                             }})
-    .then(function(){
-        res.send();
-    })           
+    // associates.findByIdAndUpdate(id,
+    //                        {$set:{
+    //                          "password":password
+    //                          }})
+    // .then(function(){
+    //     res.send();
+    // })      
+
+    bcrypt.hash(req.body.password,10,function(err,hash){
+        if(err){
+            res.status(400).json({
+                msg:"Something went wrong",results:err
+            });
+        }else{
+            var id=req.body._id;
+            var username=req.body.username;
+            var email=req.body.email;
+             var password=hash;
+             associates.findByIdAndUpdate(id,
+                {$set:{
+                  "password":password
+                  }})
+                 .then(function(){
+                    res.send();
+    })  
     
+}
+
+})
 })
 
-App.delete("/del-associate/:id",verifyAdminToken, function(req,res){
+
+App.post("/del-associate",verifyAdminToken, function(req,res){
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
     
     
-    console.log(req.params.id);
-    associates.findByIdAndDelete(req.params.id)
-    .then(()=>{
-        console.log("Success");
+    console.log(req.body.id);
+    let id = req.body.id;
+    // associates.findByIdAndDelete(req.params.id)
+    // .then(()=>{
+    //     console.log("Success");})
+
+    associates.deleteOne({"email":id})
+    .then(()=>{console.log("Success");})
+
+    bookings.deleteMany({"associateEmail":id})
+        .then((err,data)=>{
+            if(err)
+            console.log(err)
+        });   console.log("Success");  
         
         res.send();
-    })
+    
 })
 
 

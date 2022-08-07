@@ -23,12 +23,12 @@ export class UserloginComponent implements OnInit {
   }
 
   loginUser(){
-    
-    console.log(this.loginUserData);
+    localStorage.setItem("username", this.loginUserData.email.toString());
+    // console.log(this.loginUserData);
     this._auth.loginUser(this.loginUserData)
     .subscribe (res=>{
       
-      console.log(res);
+      // console.log(res);
       localStorage.setItem('token', res.token);
       this.router.navigate(['dashboard']);
       },

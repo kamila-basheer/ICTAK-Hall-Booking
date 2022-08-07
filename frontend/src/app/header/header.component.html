@@ -2,7 +2,7 @@
 
 
 
-<nav class="navbar fixed-top navbar-expand-lg bg-dark navbar-dark">
+<nav class="navbar  navbar-expand-lg bg-dark navbar-dark">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">ICTAK</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -11,13 +11,13 @@
     <div class="collapse navbar-collapse " id="navbarNav">
       <div class="navbar-nav ml-auto">
         <a class="nav-link nav-link active" *ngIf="!authService.loggedIn()" routerLink="/home">Welcome</a>
-        <a class="nav-link nav-link active" *ngIf="authService.loggedIn()" routerLink="/dashboard">Home</a>
-        <a class="nav-link nav-link active" *ngIf="authService.loggedIn()" routerLink="/book-your-hall">New Booking</a>
-        <a class="nav-link nav-link active" *ngIf="authService.loggedIn()" routerLink="/view-calendar">Booking Calendar</a>
-        <a class="nav-link nav-link active" *ngIf="authService.loggedIn()"  routerLink="/admin-dashboard">DashBoard</a>
-        <a class="nav-link nav-link active" *ngIf="authService.loggedIn()" routerLink="/manage-associates">Manage Associates</a>
-        <a class="nav-link nav-link active" *ngIf="authService.loggedIn()" routerLink="/manage-bookings">Manage Bookings</a>
-        <a class="nav-link nav-link active" *ngIf="authService.loggedIn()" routerLink="/edit-calendar">Cancel Booking</a>
+        <a class="nav-link nav-link active" *ngIf="authService.loggedIn() && !authService.admLoggedIn()" routerLink="/dashboard">Home</a>
+        <a class="nav-link nav-link active" *ngIf="authService.loggedIn() && !authService.admLoggedIn()" routerLink="/book-your-hall">New Booking</a>
+        <a class="nav-link nav-link active" *ngIf="authService.loggedIn() && !authService.admLoggedIn()" routerLink="/view-calendar">Booking Calendar</a>
+        <a class="nav-link nav-link active" *ngIf="authService.admLoggedIn()"  routerLink="/admin-dashboard">DashBoard</a>
+        <a class="nav-link nav-link active" *ngIf="authService.admLoggedIn()" routerLink="/manage-associates">Manage Associates</a>
+        <a class="nav-link nav-link active" *ngIf="authService.admLoggedIn()" routerLink="/manage-bookings">Manage Bookings</a>
+        <a class="nav-link nav-link active" *ngIf="authService.loggedIn() && !authService.admLoggedIn()" routerLink="/edit-calendar">Cancel Booking</a>
         <a class="nav-link nav-link active" *ngIf="!authService.loggedIn()" routerLink="/register">SignUp</a>
         <a class="nav-link nav-link active" *ngIf="!authService.loggedIn()" routerLink="/login">User Login</a>
         <a class="nav-link nav-link active" *ngIf="!authService.loggedIn()" routerLink="/adm-login">Admin Login</a>

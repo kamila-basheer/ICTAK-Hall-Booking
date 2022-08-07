@@ -14,6 +14,7 @@ export class AdminAssocaitesComponent implements OnInit {
   title:String="Associate Details";
   associates:AssociateModel[] = [];
   associatesLength:any
+  id:any
   
 
   constructor(private authService:AuthService, private router: Router) { }
@@ -35,26 +36,42 @@ export class AdminAssocaitesComponent implements OnInit {
     })
   }
 
-  deleteAssociate(associate :any){
+  setitem(item:any){
+    localStorage.setItem("Item",item)
+     }
+   
+     removeitem(){
+       localStorage.removeItem("Item")
+     }
+   
+
+  deleteAssociate(){
+
+    this.id= localStorage.getItem("Item");
+    this.authService.deleteAssociate(this.id)
+    .subscribe(res=>{
+      console.log("Removed");
+    })
+    window.location.reload();
     
-    this.authService.deleteAssociate(associate._id)
-      .subscribe((data)=>{
-        this.associates=this.associates.filter(a=>a!==associate);
-        console.log(data);
-      },err=>{
-        console.log(err.error.message);
-        if(err.error.message=='Unauthorized'){
-        this.router.navigate(['home']);}
+    // this.authService.deleteAssociate(associate.email)
+    //   .subscribe((data)=>{
+    //     this.associates=this.associates.filter(a=>a!==associate);
+    //     console.log(data);
+    //   },err=>{
+    //     console.log(err.error.message);
+    //     if(err.error.message=='Unauthorized'){
+    //     this.router.navigate(['home']);}
         // this.errors=err.error.message;
         // alert(this.errors);
         // this.router.navigate(['home']);
   
-      })
+      // })
   }
 
-  updateBook(book:any){
-    console.log(book);
-    localStorage.setItem("editAssociateId", book._id.toString());
+  updateAssociate(associate:any){
+    console.log(associate);
+    localStorage.setItem("editAssociateId", associate._id.toString());
     this.router.navigate(['edit-associate']);
   }
   

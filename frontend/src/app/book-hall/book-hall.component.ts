@@ -14,7 +14,7 @@ time={
   totime:"11:15",
   hallname:""
 }  
-Halls=["testing1","testing2","testing3"]
+Halls=["Programming Hall","Knowledge Hall","Support Hall"]
 message:any;
 error:any;
 errmsg:any

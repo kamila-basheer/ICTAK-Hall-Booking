@@ -20,7 +20,7 @@ export class EditBookingComponent implements OnInit {
   _id:0
   }
     
-    Halls=["testing1","testing2","testing3"];
+    Halls=["Programming Hall","Knowledge Hall","Support Hall"];
     id:any;
     bookingdetails:any;
 

@@ -9,7 +9,7 @@ import { AuthService } from '../auth.service';
 })
 export class EditAssociateComponent implements OnInit {
 
-  title:String="Edit Book";
+  title:String="Edit Associate";
   Associate={
     
     username :'',
@@ -40,7 +40,7 @@ export class EditAssociateComponent implements OnInit {
     this.authService.editAssociate(this.Associate);
     localStorage.removeItem('editAssociateId');
     alert("Success");
-    this.router.navigate(['associate-details']);
+    this.router.navigate(['manage-associates']);
   }
 
 }

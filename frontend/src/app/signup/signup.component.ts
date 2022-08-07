@@ -25,12 +25,12 @@ export class SignupComponent implements OnInit {
   }
 
   registerUser(){
-    console.log(this.registerUserData);
+
     this._auth.registerUser(this.registerUserData)
     .subscribe ((data:any)=>{
-      console.log(data);
+      // console.log(data);
    
-      localStorage.setItem('token', data.token);
+      // localStorage.setItem('token', data.token);
       this.router.navigate(['login']);
     },err=>{
       this.errors=err.error.message;

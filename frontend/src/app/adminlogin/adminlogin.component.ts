@@ -19,8 +19,8 @@ export class AdminloginComponent implements OnInit {
   }
 
   loginAdmin(){
+    localStorage.setItem("username", this.loginAdminData.username.toString());
     
-    console.log(this.loginAdminData);
     this._auth.loginAdmin(this.loginAdminData)
     .subscribe (res=>{
       

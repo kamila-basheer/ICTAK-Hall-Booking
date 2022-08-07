@@ -10,18 +10,18 @@ export class AuthService {
   constructor(private http:HttpClient,private router:Router) { }
 
   registerUser(associate:any){
-    console.log(associate);
+    
     return this.http.post("http://localhost:3000/register", associate);
     
   }
 
   loginUser(associate:any){
-    console.log(associate);
+    
     return this.http.post<any>("http://localhost:3000/login", associate);
   }
 
   loginAdmin(admin:any){
-    console.log(admin);
+   
     return this.http.post<any>("http://localhost:3000/adm-login", admin);
   }
 
@@ -35,6 +35,7 @@ export class AuthService {
 
   logoutUser(){
     localStorage.removeItem('token');
+    localStorage.removeItem('username');
     this.router.navigate(['home']);
   }
 
@@ -45,7 +46,7 @@ export class AuthService {
   deleteAssociate(id:any){
     
     console.log(id);
-    return this.http.delete("http://localhost:3000/del-associate/"+id);
+    return this.http.post("http://localhost:3000/del-associate",{"id":id});
     
   }
 
@@ -58,8 +59,24 @@ export class AuthService {
     console.log("client update");
     return this.http.put("http://localhost:3000/edit-associate", associate)
       .subscribe((data)=>{
-        console.log(data);
+
       })
   }
+
+  admLoggedIn(){
+      let user = localStorage.getItem('username');
+      if(user=='admin'){
+      return !!localStorage.getItem('username');
+      }
+      else return false;
+  }
+
+  userLoggedIn(){
+    let user = localStorage.getItem('username');
+    if(user!=="admin"){
+    return !!localStorage.getItem('username');
+    }
+    else return false;
+}
 
 }
